@@ -187,7 +187,7 @@ class WebhookHandler extends Base
 
         $event = array(
             'project_id' => $this->project_id,
-            'reference' => $issue['id'],
+            'reference' => '#'.$issue['iid'],
             'title' => $issue['title'],
             'description' => $description,
             'assignee_id' => $issue['assignee_id'],
@@ -211,13 +211,13 @@ class WebhookHandler extends Base
      */
     public function handleIssueReopened(array $issue)
     {
-        $task = $this->taskFinderModel->getByReference($this->project_id, $issue['id']);
+        $task = $this->taskFinderModel->getByReference($this->project_id, '#'.$issue['iid']);
 
         if (! empty($task)) {
             $event = array(
                 'project_id' => $this->project_id,
                 'task_id' => $task['id'],
-                'reference' => $issue['id'],
+                'reference' => '#'.$issue['iid'],
                 'assignee_id' => $issue['assignee_id'],
                 'author_id' => $issue['author_id'],
             );
@@ -243,13 +243,13 @@ class WebhookHandler extends Base
      */
     public function handleIssueClosed(array $issue)
     {
-        $task = $this->taskFinderModel->getByReference($this->project_id, $issue['id']);
+        $task = $this->taskFinderModel->getByReference($this->project_id, '#'.$issue['iid']);
 
         if (! empty($task)) {
             $event = array(
                 'project_id' => $this->project_id,
                 'task_id' => $task['id'],
-                'reference' => $issue['id'],
+                'reference' => '#'.$issue['iid'],
                 'assignee_id' => $issue['assignee_id'],
                 'author_id' => $issue['author_id'],
             );
@@ -278,7 +278,7 @@ class WebhookHandler extends Base
             return false;
         }
 
-        $task = $this->taskFinderModel->getByReference($this->project_id, $payload['issue']['id']);
+        $task = $this->taskFinderModel->getByReference($this->project_id, '#'.$payload['issue']['iid']);
 
         if (! empty($task)) {
             $user = $this->userModel->getByUsername($payload['user']['username']);
